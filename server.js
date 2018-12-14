@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 // create express app
 const app = express();
@@ -10,20 +11,21 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse requests of content-type - application/json
 app.use(bodyParser.json())
 
-
+//Definindo a porta
 var port = process.env.port || 3000
 
+//Defininfo o Router
 var router = express.Router()
 
 // Configuring the database
 const dbConfig = require('./config/database.config.js');
-const mongoose = require('mongoose');
 
+//Pegando nosso Model
 var Message = require('./models/message')
 
 mongoose.Promise = global.Promise;
 
-// Connecting to the database
+// Conexão com o banco de dados
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true
 }).then(() => {
@@ -33,12 +35,49 @@ mongoose.connect(dbConfig.url, {
     process.exit();
 });
 
-// define a simple route
-router.get('/', (req, res) => {
-    res.json({ "message": "Vai começar a brincadeira!" });
-});
+
+//Rotas da nossa api
+// middleware para esta rota
+router.use(function timeLog(req, res, next) {
+    console.log('Algo Aqui')
+    next()
+})
+
+// define as rotas de mensagens
+router.route('/messages')
+    .post(function (req, res, next) {
+        var message = new Message();
+        message.protocolo = req.body.protocolo
+        message.telefones = req.body.telefones
+        message.mensagem = req.body.mensagem
+        message.save(function (error) {
+            if (error)
+                res.send('Erro ao tentar salvar a Mensagem....: ' + error);
+            res.json({ message: 'Mensagens enviadas com sucesso!' });
+        });
+    })
+
+    .get(function (req, res) {
+        Message.find(function (error, messages) {
+            if (error)
+                res.send('Erro ao listar mensages...: ' + error);
+            res.json(messages);
+        });
+    });
+
+router.get('/messages/:protocolo', function (req, res, next) {
+    Message.
+        find({ protocolo: req.params.protocolo }, function (error, protocolo) {
+            if (error)
+                res.send('protocolo não encontrado....: ' + error);
+            res.json(protocolo);
+        });
+})
+
 
 app.use('/api', router)
+//=================
+
 
 // listen for requests
 app.listen(port, () => {
