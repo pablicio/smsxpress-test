@@ -26,6 +26,8 @@ export class ScrollPageComponent implements OnInit {
 
   contolePainel = false;
 
+  contoleFim = false;
+
   public validators = [this.mobileNumberAt];
 
   public errorMessages = {
@@ -125,7 +127,11 @@ export class ScrollPageComponent implements OnInit {
   }
 
   confirmarEnvio() {
-    this.telefones = ['83991811774', '83991814445', '83991899992'];
+    this.contoleFim = true;
+  }
+
+  voltar(){
+    location.reload();
   }
 
 }

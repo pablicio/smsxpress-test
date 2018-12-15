@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const accountSid = 'AC7e06e6dff1392daf27530c797a622670';
+const authToken = 'e9a099f283825eec94a4940187932538';
+
+const client = require('twilio')(accountSid, authToken);
+
 // create express app
 const app = express();
 
@@ -46,15 +51,20 @@ router.use(function timeLog(req, res, next) {
 // define as rotas de mensagens
 router.route('/messages')
     .post(function (req, res, next) {
-        var message = new Message();
-        message.protocolo = req.body.protocolo
-        message.telefones = req.body.telefones
-        message.mensagem = req.body.mensagem
-        message.save(function (error) {
-            if (error)
-                res.send('Erro ao tentar salvar a Mensagem....: ' + error);
-            res.json({ message: 'Mensagens enviadas com sucesso!' });
-        });
+        client.messages.create({
+            from: "5567933007050",
+            to: "5583991811177",
+            body: "You just sent an SMS from Node.js using Twilio!"
+        }).then((message) => console.log(message.sid));
+        // var message = new Message();
+        // message.protocolo = req.body.protocolo
+        // message.telefones = req.body.telefones
+        // message.mensagem = req.body.mensagem
+        // message.save(function (error) {
+        //     if (error)
+        //         res.send('Erro ao tentar salvar a Mensagem....: ' + error);
+        //     res.json({ message: 'Mensagens enviadas com sucesso!' });
+        // });
     })
 
     .get(function (req, res) {
