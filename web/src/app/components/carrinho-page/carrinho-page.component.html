@@ -1,0 +1,14 @@
+<div class="container" *ngIf="contolePainel && !contoleFim">
+  <h2 class="mb-5 display-4">Carrinho de compras</h2>
+  <h4>Total de números de telefone: {{ numTel }}</h4>
+  <h4>Total de caracteres digitados: {{ numChar }}</h4>
+  <h1>Valor Total: {{ numberParaReal(total) }}</h1>
+
+  <button class="btn btn-info float-right" (click)="confirmarEnvio()">
+    Confirmar Envio
+  </button>
+
+  <button class="btn btn-danger float-right" id="cancelar" (click)="cancelarEnvio()">
+    Cancelar
+  </button>
+</div>

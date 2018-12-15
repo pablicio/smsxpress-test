@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-// import * as $ from 'jquery'
 import { FormControl } from '@angular/forms';
+
 declare var $: any;
 
 @Component({
@@ -12,9 +12,7 @@ export class ScrollPageComponent implements OnInit {
 
   @ViewChild('modal') modal: ElementRef;
 
-  items = ['8399181177'];
-
-  telefones = []
+  items;
 
   mensagem: String = ''
 
@@ -27,6 +25,8 @@ export class ScrollPageComponent implements OnInit {
   contolePainel = false;
 
   contoleFim = false;
+
+  protocol
 
   public validators = [this.mobileNumberAt];
 
@@ -41,17 +41,13 @@ export class ScrollPageComponent implements OnInit {
       return {
         'mobileNumber': true
       };
-
     }
-
     return null;
   }
 
   constructor() {
     $(document).ready(function () {
-
       var scrollLink = $('.scroll');
-
       // Smooth scrolling
       scrollLink.click(function (e) {
         e.preventDefault();
@@ -61,44 +57,29 @@ export class ScrollPageComponent implements OnInit {
         }, 1000);
       });
 
-      // Active link switching
+      // Troca link Ativo
       $(window).scroll(function () {
         var scrollbarLocation = $(this).scrollTop();
-
         scrollLink.each(function () {
-
           var hash = $(this).attr('href')
-
           var sectionOffset = $(hash).offset().top - 20;
-
           if (sectionOffset <= scrollbarLocation) {
             $(this).parent().addClass('active');
             $(this).parent().siblings().removeClass('active');
           }
         })
-
       })
-
     })
-
   }
 
-  ngOnInit() {
-
-  }
-
+  ngOnInit() { }
 
   showModal() {
     $(this.modal.nativeElement).show('modal');
   }
 
-  closeModal() {
+  closeModal(evt) {
     $(this.modal.nativeElement).hide('modal');
-    this.telefones = []
-  }
-
-  consulta(){
-    this.telefones = ['83991811774', '83991814445', '83991899992'];
   }
 
   continuar() {
@@ -106,32 +87,16 @@ export class ScrollPageComponent implements OnInit {
     this.calcTotal()
   }
 
-  calcTotal(){
-
+  calcTotal() {
     this.numTel = this.items.length;
-
     this.numChar = this.mensagem.replace(" ", "").length;
-
     this.total = (this.numTel * .1) + ((this.numChar / 10) * .05)
-
     this.total = Number((this.total).toFixed(2))
   }
 
-  numberParaReal(numero) {
-    var formatado = "R$ " + numero.toFixed(2).replace(".", ",");
-    return formatado;
+  mudouStateCar(event) {
+    this.contoleFim = event.contoleFim
+    this.contolePainel = event.contolePainel
+    this.protocol = event.protocol
   }
-
-  cancelarEnvio() {
-    this.contolePainel = false;
-  }
-
-  confirmarEnvio() {
-    this.contoleFim = true;
-  }
-
-  voltar(){
-    location.reload();
-  }
-
 }

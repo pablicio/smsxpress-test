@@ -1,0 +1,54 @@
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link scroll" href="#features">Sobre
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link scroll" href="#pricing">Envie SMS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="consultas" (click)="showModal()">Consultas</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<section class="features" id="features">
+  <sobre-page></sobre-page>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="container" *ngIf="!contolePainel">
+    <h1 class="mb-5 display-4">Enviar SMS</h1>
+    <tag-input [(ngModel)]='items' [errorMessages]="errorMessages" [validators]="validators" [theme]="'bootstrap'" placeholder="Ex: 83991811787"></tag-input>
+    <br>
+    <textarea name="message" id="msg" rows="4" [(ngModel)]='mensagem' placeholder="Escreva aqui sua mensagem"></textarea>
+    <button class="btn btn-info float-right" (click)="continuar()">
+      Continuar
+    </button>
+  </div>
+
+  <carrinho-page [contolePainel]="contolePainel" [contoleFim]="contoleFim" [numTel]="numTel" [numChar]="numChar" [telefones]="items"
+    [mensagem]="mensagem" [total]="total" (mudouStateCar)="mudouStateCar($event)">
+  </carrinho-page>
+
+  <envio-sms-page [contoleFim]="contoleFim" [protocol]="protocol"></envio-sms-page>
+</section>
+
+<footer>
+  <p>Thiago Pablício Cabral da Silva</p>
+</footer>
+
+<div class="modal" tabindex="-1" role="dialog" #modal>
+  <modal-page (closeModalEvt)="closeModal($event)"></modal-page>
+</div>
