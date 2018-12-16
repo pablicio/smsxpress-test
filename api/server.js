@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 //Definindo a porta
-var port = process.env.port || 3000
+var port = process.env.port || 8000
 
 //Defininfo o Router
 var router = express.Router()
