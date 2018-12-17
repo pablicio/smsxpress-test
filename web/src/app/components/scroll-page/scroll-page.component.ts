@@ -12,7 +12,7 @@ export class ScrollPageComponent implements OnInit {
 
   @ViewChild('modal') modal: ElementRef;
 
-  items;
+  items = [];
 
   mensagem: String = ''
 
@@ -33,6 +33,11 @@ export class ScrollPageComponent implements OnInit {
   public errorMessages = {
     'mobileNumber': 'Não é um número de telefone válido'
   };
+
+  temNumCtr = false
+  temNumError = "Precisa informar ao menos um telefone"
+  temCharCtr = false
+  temCharError = "Precisa digitar ao menos um caractere"
 
   private mobileNumberAt(control: FormControl) {
     const pattern = /^[6-9]\d{10}$/;
@@ -83,8 +88,17 @@ export class ScrollPageComponent implements OnInit {
   }
 
   continuar() {
-    this.contolePainel = true;
     this.calcTotal()
+    this.temNumCtr = false
+    this.temCharCtr = false
+
+    if (this.numTel == 0) {
+      this.temNumCtr = true
+    } else if (this.numChar == 0) {
+      this.temCharCtr = true
+    }else{
+      this.contolePainel = true;
+    }
   }
 
   calcTotal() {

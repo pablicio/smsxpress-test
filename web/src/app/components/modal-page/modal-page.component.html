@@ -1,26 +1,29 @@
-
 <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Informe o protocolo</h5>
-        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <span id="color-error" *ngIf="errorProtocolo">{{ errorMessage }}</span>
-        <input type="text" class="form-control" [(ngModel)]="protocolo" placeholder="Ex: 2111-5254-5845">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Informe o protocolo</h5>
+      <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span id="color-error" *ngIf="errorProtocolo">{{ errorMessage }}</span>
+      <input type="text" class="form-control" [(ngModel)]="protocolo" placeholder="Ex: 2111-5254-5845">
+      <br>
+      <div *ngIf="consultou">
+        <h5>Mensagem Enviada</h5>
+        <p style="text-align: justify; margin-left: 40px;">{{ mensagem }}</p>
 
+        <h5>Números de destino</h5>
         <ul>
           <li *ngFor="let item of telefones">
             {{ item }}
           </li>
         </ul>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" (click)="consulta()">Consultar</button>
-      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-info" (click)="consulta()">Consultar</button>
     </div>
   </div>
-
-  
+</div>

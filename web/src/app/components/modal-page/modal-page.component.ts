@@ -14,9 +14,13 @@ export class ModalPageComponent implements OnInit {
 
   errorProtocolo = false
 
+  consultou = false
+
   errorMessage = ''
 
   telefones = []
+
+  mensagem = ''
 
   constructor(public messageService: MessageService) { }
 
@@ -36,21 +40,27 @@ export class ModalPageComponent implements OnInit {
           console.log(data)
           if (data.length){
             this.telefones = data[0].telefones.split(',')
+            this.mensagem = data[0].mensagem
+            this.consultou = true
           }else{
             this.errorMessage = 'Protocolo inexistente, informe um protocolo válido!'
             this.errorProtocolo = true
+            this.consultou = false
           }
           
         })
     }else{
       this.errorMessage = 'Você deve fornecer um protocolo'
       this.errorProtocolo = true
+      this.consultou = false
     }
   }
 
   
   closeModal(){
     this.telefones = []
+    this.protocolo = ""
+    this.consultou = false
     this.closeModalEvt.emit('hide')
   }
 }

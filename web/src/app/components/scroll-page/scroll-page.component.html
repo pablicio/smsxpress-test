@@ -30,8 +30,11 @@
 <section class="pricing" id="pricing">
   <div class="container" *ngIf="!contolePainel">
     <h1 class="mb-5 display-4">Enviar SMS</h1>
-    <tag-input [(ngModel)]='items' [errorMessages]="errorMessages" [validators]="validators" [theme]="'bootstrap'" placeholder="Ex: 83991811787"></tag-input>
+    <span id="color-error" *ngIf="temNumCtr">{{ temNumError }}</span>
+    <tag-input [(ngModel)]='items' [errorMessages]="errorMessages" [validators]="validators" [theme]="'bootstrap'" placeholder="Ex: 83991811177" 
+    secondaryPlaceholder="Ex: 83991811177"></tag-input>
     <br>
+    <span id="color-error" *ngIf="temCharCtr">{{ temCharError }}</span>
     <textarea name="message" id="msg" rows="4" [(ngModel)]='mensagem' placeholder="Escreva aqui sua mensagem"></textarea>
     <button class="btn btn-info float-right" (click)="continuar()">
       Continuar
