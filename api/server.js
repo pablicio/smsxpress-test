@@ -55,8 +55,8 @@ router.use(function timeLog(req, res, next) {
 router.route('/messages')
     .post(function (req, res, next) {
 
-        //Envia Mensagem Via Twillio
-        sendMessage(req.body.mensagem)
+        //recebe os paramentros de envio de mensagem do Twillio
+        telefoneIterator(req.body.telefones, req.body.mensagem)
 
         var message = new Message();
         message.protocolo = req.body.protocolo
@@ -92,16 +92,25 @@ app.use('/api', router)
 //=================
 
 
-// listen for requests
+// ouvinte do servidor
 app.listen(port, () => {
-    console.log("Server is listening on port 3000");
+    console.log("Sevidor rodando na porta 8000");
 });
 
+function telefoneIterator(telefones, mensagem) {
+    var telefonesArr = telefones.split(",")
 
-function sendMessage(message){
+    for (let t in telefonesArr) {
+        if (telefonesArr[t] == "83991811177") {
+            sendMessage(mensagem, "67933007050", telefonesArr[t])
+        }
+    }
+}
+
+function sendMessage(message, numFrom, numTo) {
     client.messages.create({
-        from: "5567933007050",
-        to: "5583991811177",
+        from: "55" + numFrom,
+        to: "55" + numTo,
         body: message
     }).then((message) => console.log(message.sid));
 }
